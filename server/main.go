@@ -53,9 +53,9 @@ func (s *server) CreateEmp(ctx context.Context, create *proto.Create) (*proto.Bo
 	if err != nil {
 		panic(err)
 	}
-	test, err := db.Prepare("Insert into COMPANY Values (?)")
+	test, err := db.Prepare("Insert into COMPANY Values ($1,$2,$3,$4,$5);")
 	if err != nil {
-		fmt.Printf("/n Error fetching rown /n")
+		fmt.Printf("/n Error fetching row /n")
 		panic(err)
 	}
 	_, e := test.Exec(create.GetId(), create.GetName(), create.GetAge(), create.GetAddress(), create.GetAge())

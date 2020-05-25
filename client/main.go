@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"helloWorld/proto"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -54,4 +55,8 @@ func main() {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		}
 	})
+
+	if err := g.Run(":8080"); err != nil {
+		log.Fatalf("Failed to run server: %v", err)
+	}
 }
