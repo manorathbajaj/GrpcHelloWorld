@@ -5,6 +5,7 @@ bins
 gens
 libs
 objs
+hello
 
 # Python items
 cython_debug/
