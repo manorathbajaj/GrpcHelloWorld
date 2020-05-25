@@ -1,9 +1,11 @@
-package main
+//Package test not a grpc service, just a a test func to test and try database connectivity and stuff
+package test
 
 import (
 	"database/sql"
 	"fmt"
 
+	// import needed for postgrtes
 	_ "github.com/lib/pq"
 )
 
