@@ -91,7 +91,6 @@ func main() {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Parameter age"})
 			return
 		}
-
 		salary, err := strconv.ParseUint(ctx.Param("salary"), 10, 64)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Parameter salary"})
@@ -113,6 +112,22 @@ func main() {
 	})
 
 	// ¯\_(ツ)_/¯ demo ¯\_(ツ)_/¯ DELETE
+	g.GET("/DELETE/:id", func(ctx *gin.Context) {
+		id, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Parameter id"})
+			return
+		}
+		req := &proto.Retrieve{Id: int64(id)}
+
+		if response, err := client.DeleteEmp(ctx, req); err == nil {
+			ctx.JSON(http.StatusOK, gin.H{
+				"result": fmt.Sprint(response.Done),
+			})
+		} else {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		}
+	})
 
 	if err := g.Run(":8080"); err != nil {
 		log.Fatalf("Failed to run server: %v", err)

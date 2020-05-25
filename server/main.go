@@ -123,7 +123,7 @@ func (s *server) UpdateEmp(ctx context.Context, update *proto.Create) (*proto.Bo
 		fmt.Printf("/n Error fetching row /n")
 		panic(err)
 	}
-	_, e := test.Exec(update.GetId(), update.GetName(), update.GetAge(), update.GetAddress(), update.GetAge())
+	_, e := test.Exec(update.GetId(), update.GetName(), update.GetAge(), update.GetAddress(), update.GetSalary())
 	if e != nil {
 		return &proto.BoolResult{Done: false}, e
 	}
@@ -131,8 +131,30 @@ func (s *server) UpdateEmp(ctx context.Context, update *proto.Create) (*proto.Bo
 }
 
 func (s *server) DeleteEmp(ctx context.Context, delete *proto.Retrieve) (*proto.BoolResult, error) {
-	// implementation pending
-	return &proto.BoolResult{Done: false}, nil
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+	db, err := sql.Open("postgres", psqlInfo)
+
+	if err != nil {
+		fmt.Printf("in error")
+		panic(err)
+	}
+	defer db.Close()
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+	test, err := db.Prepare("DELETE from COMPANY WHERE id=$1")
+	if err != nil {
+		fmt.Printf("/n Error fetching row /n")
+		panic(err)
+	}
+	_, e := test.Exec(delete.GetId())
+	if e != nil {
+		return &proto.BoolResult{Done: false}, e
+	}
+	return &proto.BoolResult{Done: true}, nil
 }
 
 const (
