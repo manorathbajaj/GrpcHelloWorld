@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package proto;
+// Create and update request dataStructure will also handle response
+message Create {
+    int64 id = 1;
+    string name = 16;
+    int64 age = 2;
+    string address = 17;
+    int64 salary = 3; 
+}
+// Retrieve and delete request
+message Retrieve {
+    int64 id = 1;
+}
+
+message BoolResult {
+    bool done = 1;
+}
+
+service CRUDSrevice {
+    rpc CreateEmp (Create) returns (BoolResult);
+    rpc RetrieveEmp (Retrieve) returns (Create);
+    rpc UpdateEmp (Create) returns (BoolResult);
+    rpc DeleteEmp (Retrieve) returns (BoolResult);
+}
+

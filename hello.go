@@ -1,5 +1,5 @@
-//Package test not a grpc service, just a a test func to test and try database connectivity and stuff
-package test
+//Package main not a grpc service, just a a test func to test and try database connectivity and stuff
+package main
 
 import (
 	"database/sql"
