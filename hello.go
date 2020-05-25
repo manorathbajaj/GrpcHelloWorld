@@ -22,6 +22,20 @@ func main() {
 	}
 	defer db.Close()
 
+	test, err := db.Query("select * from COMPANY")
+	if err != nil {
+		fmt.Printf("/n Error fetching rown /n")
+		panic(err)
+	}
+	for test.Next() {
+		err := test.Scan(&id, &name, &age, &address, &salary)
+		if err != nil {
+			fmt.Printf("/n Error mapping rows /n")
+			panic(err)
+		}
+		fmt.Printf(name + "\n")
+	}
+
 	err = db.Ping()
 	if err != nil {
 		panic(err)
@@ -35,4 +49,12 @@ const (
 	user     = "dbuser"
 	password = "password"
 	dbname   = "test"
+)
+
+var (
+	id      int
+	name    string
+	age     int
+	address string
+	salary  int
 )
